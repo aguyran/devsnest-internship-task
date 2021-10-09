@@ -18,10 +18,7 @@ const Container = ({
               {currentStatus}
             </caption>
             {data.map((el) => {
-              if (el.status === currentStatus)
-                return (
-                  <Todo key={el.id} element={el} dispatch={dispatch}></Todo>
-                );
+              return <Todo key={el.id} element={el} dispatch={dispatch}></Todo>;
             })}
           </table>
         </div>

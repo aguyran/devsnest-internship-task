@@ -111,6 +111,7 @@ const CreateTodo = ({
                     payload: { ...handleData, updated_at: new Date() },
                   });
                 }
+                setVisible(false);
               }}
             >
               Save

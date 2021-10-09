@@ -7,7 +7,11 @@ import todoReducer from "./reducer";
 import Modal from "./components/Modal";
 
 function App() {
-  const [todos, setTodos] = useReducer(todoReducer, []);
+  const [todos, setTodos] = useReducer(todoReducer, {
+    finished:[],
+    inProgress:[],
+    pending:[],
+  });
   console.log(todos);
   const [viewMode, setViewMode] = useState<"list" | "board">("list");
   const [isVisible, setVisible] = useState(false);
@@ -41,20 +45,23 @@ function App() {
       </div>
       {viewMode === "list" ? (
         <>
-          <Container
-            data={todos}
-            currentStatus="finished"
-            dispatch={setTodos}
-          />
-          <Container
+          {Object.keys(todos).map((el) => (
+            <Container
+              data={todos[el]}
+              currentStatus={el}
+              dispatch={setTodos}
+            />
+          ))}
+
+          {/* <Container
             data={todos}
             currentStatus="inProgress"
             dispatch={setTodos}
           />
-          <Container data={todos} currentStatus="pending" dispatch={setTodos} />
+          <Container data={todos} currentStatus="pending" dispatch={setTodos} /> */}
         </>
       ) : viewMode === "board" ? (
-        <Board data={todos}/>
+        <Board data={todos} />
       ) : null}
       {isVisible ? (
         <Modal>

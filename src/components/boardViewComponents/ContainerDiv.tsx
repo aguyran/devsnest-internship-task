@@ -1,11 +1,11 @@
 const ContainerDiv = ({
   data,
-  currentStatus,
+ currentStatus
 }: {
   data: TodoStruct[];
   currentStatus: string;
 }) => {
-  console.log(data);
+ 
   return (
     <div className="flex w-screen h-screen p-10 space-x-4 overflow-auto text-gray-700">
       <div className="flex flex-col flex-shrink-0 w-64 bg-gray-200 border border-gray-300">
@@ -29,7 +29,7 @@ const ContainerDiv = ({
         </div>
         <div className="flex flex-col px-2 pb-2 overflow-auto">
           {data.map((el) => {
-            if (el.status === currentStatus)
+           
               return (
                 <div
                   key={el.id}
@@ -42,8 +42,8 @@ const ContainerDiv = ({
                     console.log("dragstart:", el.id);
                     e.dataTransfer.setData("id", el.id);
                   }}
-                  onDrop={(e)=>{
-                    const id =e.dataTransfer.getData("id")
+                  onDrop={(e) => {
+                    const id = e.dataTransfer.getData("id");
                   }}
                 >
                   {el.title}
