@@ -1,11 +1,18 @@
-import { useState } from "react";
+import { useState, useReducer } from "react";
 import { HiDocumentAdd, HiOutlineViewBoards, HiViewList } from "react-icons/hi";
 import ContainerDiv from "./components/boardViewComponents/ContainerDiv";
 import Container from "./components/listViewComponents/Container";
 import CreateTodo from "./components/CreateTodo";
+import todoReducer from "./reducer";
+import Modal from "./components/Modal";
 
 function App() {
-  const [todos, setTodos] = useState<TodoStruct[] | null>(null);
+  const [todos, setTodos] = useReducer(todoReducer, {
+    finished: [],
+    pending: [],
+    inProgress: [],
+  });
+  console.log(todos);
   const [viewMode, setViewMode] = useState<"list" | "board">("list");
   const [isVisible, setVisible] = useState(false);
   const handleView = (switchView: "list" | "board") => {
@@ -37,12 +44,18 @@ function App() {
         </div>
       </div>
       {viewMode === "list" ? (
-        <Container />
+        <>
+          <Container data={todos.finished} dispatch={setTodos} />
+          <Container data={todos.inProgress} dispatch={setTodos} />
+          <Container data={todos.pending} dispatch={setTodos} />
+        </>
       ) : viewMode === "board" ? (
         <ContainerDiv />
       ) : null}
       {isVisible ? (
-        <CreateTodo setTodos={setTodos} setVisible={setVisible} />
+        <Modal>
+          <CreateTodo dispatch={setTodos} setVisible={setVisible} />
+        </Modal>
       ) : null}
     </div>
   );

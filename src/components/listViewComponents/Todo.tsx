@@ -1,31 +1,60 @@
-const Todo = () => {
+import { HiPencil } from "react-icons/hi";
+import { useState } from "react";
+import Modal from "../Modal";
+import CreateTodo from "../CreateTodo";
+
+const Todo = ({
+  element,
+  dispatch,
+}: {
+  element: TodoStruct;
+  dispatch: TodoSetter;
+}) => {
+  const [isEdit, setEdit] = useState(false);
   return (
     <tbody className="bg-white">
       <tr className="text-gray-700">
         <td className="px-4 py-3 border">
+          <HiPencil
+            className="cursor-pointer"
+            onClick={() => setEdit(!isEdit)}
+          />
+        </td>
+        <td className="px-4 py-3 border">
           <div className="flex items-center text-sm">
-            <div className="relative w-8 h-8 mr-3 rounded-full md:block">
-              <div
-                className="absolute inset-0 rounded-full shadow-inner"
-                aria-hidden="true"
-              ></div>
-            </div>
             <div>
-              <p className="font-semibold text-black">Sufyan</p>
-              <p className="text-xs text-gray-600">Developer</p>
+              <p className="font-semibold text-black">{element.title}</p>
             </div>
           </div>
         </td>
-        <td className="px-4 py-3 text-ms font-semibold border">22</td>
+        <td className="px-4 py-3 text-ms border">
+          {element.description.length > 150
+            ? element.description.slice(0, 150) + "..."
+            : element.description}
+        </td>
         <td className="px-4 py-3 text-xs border">
           <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm">
             {" "}
-            Finished{" "}
+            {element.status}
           </span>
         </td>
-        <td className="px-4 py-3 text-sm border">6/4/2000</td>
-        <td className="px-4 py-3 text-sm border">6/4/2000</td>
+        <td className="px-4 py-3 text-sm border">
+          {element.created_at?.toString()}
+        </td>
+        <td className="px-4 py-3 text-sm border">
+          {element.updated_at?.toString()}
+        </td>
       </tr>
+      {isEdit ? (
+        <Modal>
+          <CreateTodo
+            dispatch={dispatch}
+            setVisible={setEdit}
+            currentTodo={element}
+            editOn={true}
+          ></CreateTodo>
+        </Modal>
+      ) : null}
     </tbody>
   );
 };
