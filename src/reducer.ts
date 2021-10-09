@@ -1,26 +1,21 @@
 const todoReducer = (
-  state: TodoState,
+  state: TodoStruct[],
   action: { type: string; payload: TodoStruct }
 ) => {
   switch (action.type) {
     case "ADD_TODO":
-      return {
-        ...state,
-        [action.payload.status]: [
-          ...state[action.payload.status],
-          action.payload,
-        ],
-      };
+      console.log("hello");
+      return [...state, action.payload];
     case "EDIT_TODO":
-      const temp = {
-        ...state,
-      };
-      temp[action.payload.status].forEach((el, i) => {
+      return state.map((el) => {
         if (el.id === action.payload.id) {
-          temp[action.payload.status][i] = action.payload;
+          return action.payload;
         }
+        return el;
       });
-      return temp;
+    case "UPDATE_TO":
+      return state
+
     default:
       return state;
   }

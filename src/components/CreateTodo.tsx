@@ -15,7 +15,7 @@ const CreateTodo = ({
 }) => {
   const [handleData, setHandleData] = useState<TodoStruct>(
     currentTodo || {
-      id: 0,
+      id: "",
       title: "",
       description: "",
       status: "pending",
@@ -100,7 +100,7 @@ const CreateTodo = ({
                     type: "ADD_TODO",
                     payload: {
                       ...handleData,
-                      id: Date.now(),
+                      id: Date.now().toString(),
                       created_at: new Date(),
                       updated_at: new Date(),
                     },

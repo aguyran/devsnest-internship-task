@@ -1,17 +1,13 @@
 import { useState, useReducer } from "react";
 import { HiDocumentAdd, HiOutlineViewBoards, HiViewList } from "react-icons/hi";
-import ContainerDiv from "./components/boardViewComponents/ContainerDiv";
+import Board from "./components/boardViewComponents/Board";
 import Container from "./components/listViewComponents/Container";
 import CreateTodo from "./components/CreateTodo";
 import todoReducer from "./reducer";
 import Modal from "./components/Modal";
 
 function App() {
-  const [todos, setTodos] = useReducer(todoReducer, {
-    finished: [],
-    pending: [],
-    inProgress: [],
-  });
+  const [todos, setTodos] = useReducer(todoReducer, []);
   console.log(todos);
   const [viewMode, setViewMode] = useState<"list" | "board">("list");
   const [isVisible, setVisible] = useState(false);
@@ -45,12 +41,20 @@ function App() {
       </div>
       {viewMode === "list" ? (
         <>
-          <Container data={todos.finished} dispatch={setTodos} />
-          <Container data={todos.inProgress} dispatch={setTodos} />
-          <Container data={todos.pending} dispatch={setTodos} />
+          <Container
+            data={todos}
+            currentStatus="finished"
+            dispatch={setTodos}
+          />
+          <Container
+            data={todos}
+            currentStatus="inProgress"
+            dispatch={setTodos}
+          />
+          <Container data={todos} currentStatus="pending" dispatch={setTodos} />
         </>
       ) : viewMode === "board" ? (
-        <ContainerDiv />
+        <Board data={todos}/>
       ) : null}
       {isVisible ? (
         <Modal>
