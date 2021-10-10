@@ -8,11 +8,11 @@ import Modal from "./components/Modal";
 
 function App() {
   const [todos, setTodos] = useReducer(todoReducer, {
-    finished:[],
-    inProgress:[],
-    pending:[],
+    finished: [],
+    inProgress: [],
+    pending: [],
   });
-  console.log(todos);
+
   const [viewMode, setViewMode] = useState<"list" | "board">("list");
   const [isVisible, setVisible] = useState(false);
   const handleView = (switchView: "list" | "board") => {
@@ -61,7 +61,7 @@ function App() {
           <Container data={todos} currentStatus="pending" dispatch={setTodos} /> */}
         </>
       ) : viewMode === "board" ? (
-        <Board data={todos} />
+        <Board data={todos} dispatch={setTodos} />
       ) : null}
       {isVisible ? (
         <Modal>

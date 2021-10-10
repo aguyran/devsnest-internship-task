@@ -9,4 +9,4 @@ type TodoStruct = {
 type TodoState = {
   [x: string]: TodoStruct[];
 };
-type TodoSetter = React.Dispatch<{ type: string; payload: TodoStruct }>;
+type TodoSetter = React.Dispatch<{ type: string; payload: any }>;

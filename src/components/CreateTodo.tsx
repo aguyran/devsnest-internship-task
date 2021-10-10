@@ -30,7 +30,7 @@ const CreateTodo = ({
     ) => {
       setHandleData({ ...handleData, [props]: e.target.value });
     };
-  console.log(handleData);
+
   return (
     <div className="absolute min-h-screen w-screen">
       <div className="flex justify-center h-screen items-center bg-gray-200 antialiased">

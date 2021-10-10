@@ -1,6 +1,6 @@
 const todoReducer = (
   state: TodoState,
-  action: { type: string; payload: TodoStruct }
+  action: { type: string; payload: any }
 ) => {
   if (action.type === "ADD_TODO") {
     return {
@@ -24,10 +24,9 @@ const todoReducer = (
         }
       });
     });
-    let temp;
+    let temp: any;
     if (old_status) {
       if (old_status.status === action.payload.status) {
-        console.log(old_status, action.payload);
         temp = {
           ...state,
           [action.payload.status]: [...state[action.payload.status]],
@@ -46,5 +45,28 @@ const todoReducer = (
       }
     }
   }
+  if (action.type === "UPDATE_BOARD") {
+    if (!action.payload.destination) return state;
+    const [reorderedItem] = state[action.payload.source.droppableId].splice(
+      action.payload.source.index,
+      1
+    );
+    state[action.payload.destination.droppableId].splice(
+      action.payload.destination.index,
+      0,
+      reorderedItem
+    );
+    state[action.payload.destination.droppableId][
+      action.payload.destination.index
+    ] = {
+      ...state[action.payload.destination.droppableId][
+        action.payload.destination.index
+      ],
+      status: action.payload.destination.droppableId,
+      updated_at: new Date(),
+    };
+    return JSON.parse(JSON.stringify(state));
+  }
+  return state;
 };
 export default todoReducer;
