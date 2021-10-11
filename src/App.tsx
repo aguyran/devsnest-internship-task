@@ -54,6 +54,7 @@ function App() {
             <Container
               data={todos[el]}
               currentStatus={el}
+              key={el}
               keys={Object.keys(todos)}
               dispatch={setTodos}
             />

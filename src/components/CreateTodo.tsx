@@ -99,7 +99,9 @@ const CreateTodo = ({
                   className="w-full p-5 bg-white border border-gray-200 rounded shadow-sm appearance-none"
                 >
                   {keys.map((el) => (
-                    <option value={el}>{el}</option>
+                    <option key={el} value={el}>
+                      {el}
+                    </option>
                   ))}
                 </select>
               </div>
