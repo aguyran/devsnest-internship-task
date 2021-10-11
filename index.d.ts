@@ -15,3 +15,7 @@ type action =
   | { type: "ADD_TODO"; payload: TodoStruct }
   | { type: "EDIT_TODO"; payload: TodoStruct }
   | { type: "UPDATE_BOARD"; payload: import("react-beautiful-dnd").DropResult };
+
+type colors = {
+  [x: string]: string;
+};

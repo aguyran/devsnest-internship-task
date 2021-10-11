@@ -7,18 +7,20 @@ const CreateTodo = ({
   setVisible,
   currentTodo,
   editOn,
+  keys,
 }: {
   dispatch: TodoSetter;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
   currentTodo?: TodoStruct;
   editOn?: boolean;
+  keys: string[];
 }) => {
   const [handleData, setHandleData] = useState<TodoStruct>(
     currentTodo || {
       id: "",
       title: "",
       description: "",
-      status: "pending",
+      status: keys[0],
     }
   );
   const handleInput =
@@ -30,16 +32,17 @@ const CreateTodo = ({
     ) => {
       setHandleData({ ...handleData, [props]: e.target.value });
     };
-
+  const [currentlyEditing, setCurrentlyEditing] = useState(false);
+  const grey = "rgb(229, 231, 235)";
   return (
-    <div className="absolute min-h-screen w-screen">
+    <div className="absolute min-h-screen w-full z-10">
       <div className="flex justify-center h-screen items-center bg-gray-200 antialiased">
-        <div className="flex flex-col w-11/12 sm:w-5/6 lg:w-1/2 max-w-2xl mx-auto rounded-lg border border-gray-300 shadow-xl">
+        <div className="flex flex-col w-11/12 sm:w-5/6 lg:w-1/2 max-w-full mx-auto rounded-lg border border-gray-300 shadow-xl">
           <div className="flex flex-row justify-between p-6 bg-white border-b border-gray-200 rounded-tl-lg rounded-tr-lg">
             <p className="font-semibold text-gray-800">Add a Todo</p>
             <svg
               onClick={() => setVisible(false)}
-              className="w-6 h-6"
+              className="w-6 h-6 cursor-pointer"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -58,6 +61,12 @@ const CreateTodo = ({
             <input
               value={handleData.title}
               type="text"
+              disabled={editOn ? (currentlyEditing ? false : true) : false}
+              {...(editOn
+                ? currentlyEditing
+                  ? false
+                  : { style: { backgroundColor: grey } }
+                : null)}
               className="p-5 mb-5 bg-white border border-gray-200 rounded shadow-sm h-12"
               onChange={(e) => handleInput("title")(e)}
             />
@@ -65,7 +74,13 @@ const CreateTodo = ({
 
             <textarea
               value={handleData.description}
+              disabled={editOn ? (currentlyEditing ? false : true) : false}
               placeholder="Type message..."
+              {...(editOn
+                ? currentlyEditing
+                  ? false
+                  : { style: { backgroundColor: grey } }
+                : null)}
               className="p-5 mb-5 bg-white border border-gray-200 rounded shadow-sm h-36"
               onChange={(e) => handleInput("description")(e)}
             ></textarea>
@@ -73,29 +88,35 @@ const CreateTodo = ({
               <div className="w-full sm:w-1/2">
                 <p className="mb-2 font-semibold text-gray-700">Status</p>
                 <select
+                  disabled={editOn ? (currentlyEditing ? false : true) : false}
                   value={handleData.status}
+                  {...(editOn
+                    ? currentlyEditing
+                      ? false
+                      : { style: { backgroundColor: grey } }
+                    : null)}
                   onChange={(e) => handleInput("status")(e)}
                   className="w-full p-5 bg-white border border-gray-200 rounded shadow-sm appearance-none"
                 >
-                  <option value="pending">Pending</option>
-                  <option value="inProgress">In Progress</option>
-                  <option value="finished">Finished</option>
+                  {keys.map((el) => (
+                    <option value={el}>{el}</option>
+                  ))}
                 </select>
               </div>
             </div>
             <hr />
           </div>
-          <div className="flex flex-row items-center justify-between p-5 bg-white border-t border-gray-200 rounded-bl-lg rounded-br-lg">
+          <div className="flex flex-row items-center justify-between p-5 bg-white border-t border-gray-200 rounded-bl-lg rounded-br-lg ">
             <p
-              className="font-semibold text-gray-600"
+              className="font-semibold text-gray-600 cursor-pointer hover:text-red-400"
               onClick={() => setVisible(false)}
             >
               Cancel
             </p>
             <button
-              className="px-4 py-2 text-white font-semibold bg-blue-500 rounded"
+              className="px-4 py-2 text-white font-semibold bg-blue-500 rounded cursor-pointer"
               onClick={() => {
-                if (!editOn)
+                if (!editOn) {
                   dispatch({
                     type: "ADD_TODO",
                     payload: {
@@ -105,16 +126,18 @@ const CreateTodo = ({
                       updated_at: new Date(),
                     },
                   });
-                else {
-                  dispatch({
-                    type: "EDIT_TODO",
-                    payload: { ...handleData, updated_at: new Date() },
-                  });
+                  setVisible(false);
+                } else {
+                  if (currentlyEditing && editOn)
+                    dispatch({
+                      type: "EDIT_TODO",
+                      payload: { ...handleData, updated_at: new Date() },
+                    });
                 }
-                setVisible(false);
+                setCurrentlyEditing(!currentlyEditing);
               }}
             >
-              Save
+              {editOn ? (currentlyEditing ? "Save" : "Edit") : "Create"}
             </button>
           </div>
         </div>

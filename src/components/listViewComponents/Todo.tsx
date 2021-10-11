@@ -1,24 +1,24 @@
-import { HiPencil } from "react-icons/hi";
+import { HiEye } from "react-icons/hi";
 import { useState } from "react";
 import Modal from "../Modal";
 import CreateTodo from "../CreateTodo";
+import { colors } from "../../config";
 
 const Todo = ({
   element,
   dispatch,
+  keys,
 }: {
   element: TodoStruct;
   dispatch: TodoSetter;
+  keys: string[];
 }) => {
   const [isEdit, setEdit] = useState(false);
   return (
     <tbody className="bg-white">
       <tr className="text-gray-700">
         <td className="px-4 py-3 border">
-          <HiPencil
-            className="cursor-pointer"
-            onClick={() => setEdit(!isEdit)}
-          />
+          <HiEye className="cursor-pointer" onClick={() => setEdit(!isEdit)} />
         </td>
         <td className="px-4 py-3 border">
           <div className="flex items-center text-sm">
@@ -33,7 +33,10 @@ const Todo = ({
             : element.description}
         </td>
         <td className="px-4 py-3 text-xs border">
-          <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm">
+          <span
+            style={{ backgroundColor: colors[element.status] }}
+            className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm"
+          >
             {" "}
             {element.status}
           </span>
@@ -48,6 +51,7 @@ const Todo = ({
       {isEdit ? (
         <Modal>
           <CreateTodo
+            keys={keys}
             dispatch={dispatch}
             setVisible={setEdit}
             currentTodo={element}

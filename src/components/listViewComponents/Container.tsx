@@ -1,13 +1,16 @@
 import Todo from "./Todo";
+import { useMemo } from "react";
 
 const Container = ({
   data,
   dispatch,
   currentStatus,
+  keys,
 }: {
   data: TodoStruct[];
   dispatch: TodoSetter;
   currentStatus: string;
+  keys: string[];
 }) => {
   return (
     <section className="container mx-auto p-6 font-mono">
@@ -18,7 +21,14 @@ const Container = ({
               {currentStatus}
             </caption>
             {data.map((el) => {
-              return <Todo key={el.id} element={el} dispatch={dispatch}></Todo>;
+              return (
+                <Todo
+                  keys={keys}
+                  key={el.id}
+                  element={el}
+                  dispatch={dispatch}
+                ></Todo>
+              );
             })}
           </table>
         </div>
