@@ -9,4 +9,9 @@ type TodoStruct = {
 type TodoState = {
   [x: string]: TodoStruct[];
 };
-type TodoSetter = React.Dispatch<{ type: string; payload: any }>;
+type TodoSetter = React.Dispatch<action>;
+
+type action =
+  | { type: "ADD_TODO"; payload: TodoStruct }
+  | { type: "EDIT_TODO"; payload: TodoStruct }
+  | { type: "UPDATE_BOARD"; payload: import("react-beautiful-dnd").DropResult };

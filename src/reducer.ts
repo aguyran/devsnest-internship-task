@@ -1,7 +1,4 @@
-const todoReducer = (
-  state: TodoState,
-  action: { type: string; payload: any }
-) => {
+const todoReducer = (state: TodoState, action: action) => {
   if (action.type === "ADD_TODO") {
     return {
       ...state,
@@ -13,9 +10,8 @@ const todoReducer = (
   }
 
   if (action.type === "EDIT_TODO") {
-    let old_status: any = null;
+    let old_status: TodoStruct | undefined;
     let index = 0;
-    let flag = true;
     Object.keys(state).forEach((el) => {
       state[el].forEach((el2, i) => {
         if (el2.id === action.payload.id) {
@@ -24,7 +20,7 @@ const todoReducer = (
         }
       });
     });
-    let temp: any;
+    let temp;
     if (old_status) {
       if (old_status.status === action.payload.status) {
         temp = {
@@ -45,27 +41,22 @@ const todoReducer = (
       }
     }
   }
+
   if (action.type === "UPDATE_BOARD") {
     if (!action.payload.destination) return state;
-    const [reorderedItem] = state[action.payload.source.droppableId].splice(
-      action.payload.source.index,
-      1
-    );
-    state[action.payload.destination.droppableId].splice(
-      action.payload.destination.index,
-      0,
-      reorderedItem
-    );
-    state[action.payload.destination.droppableId][
-      action.payload.destination.index
-    ] = {
-      ...state[action.payload.destination.droppableId][
-        action.payload.destination.index
-      ],
-      status: action.payload.destination.droppableId,
+    const { droppableId: statusSource, index: indexSource } =
+      action.payload.source;
+    const { droppableId: statusDest, index: indexDest } =
+      action.payload.destination;
+
+    const [reorderedItem] = state[statusSource].splice(indexSource, 1);
+    state[statusDest].splice(indexDest, 0, reorderedItem);
+    state[statusDest][indexDest] = {
+      ...state[statusDest][indexDest],
+      status: statusDest,
       updated_at: new Date(),
     };
-    return JSON.parse(JSON.stringify(state));
+    return { ...state };
   }
   return state;
 };

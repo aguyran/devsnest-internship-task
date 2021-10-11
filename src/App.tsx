@@ -22,24 +22,24 @@ function App() {
     <div className="App min-h-screen bg-gray-200 mx-auto p-6 font-mono">
       <div className="w-full mb-8 container">
         <div className="flex justify-end bg-gray-200">
-          <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
-            <HiDocumentAdd
-              className="text-xl"
-              onClick={() => setVisible((s) => !s)}
-            />
+          <button
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+            onClick={() => setVisible((s) => !s)}
+          >
+            <HiDocumentAdd className="text-xl" />
           </button>
-          <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
-            <HiViewList
-              className="text-xl"
-              onClick={() => handleView("list")}
-            />
+          <button
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+            onClick={() => handleView("list")}
+          >
+            <HiViewList className="text-xl" />
           </button>
 
-          <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
-            <HiOutlineViewBoards
-              className="text-xl"
-              onClick={() => handleView("board")}
-            />
+          <button
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+            onClick={() => handleView("board")}
+          >
+            <HiOutlineViewBoards className="text-xl" />
           </button>
         </div>
       </div>
@@ -52,13 +52,6 @@ function App() {
               dispatch={setTodos}
             />
           ))}
-
-          {/* <Container
-            data={todos}
-            currentStatus="inProgress"
-            dispatch={setTodos}
-          />
-          <Container data={todos} currentStatus="pending" dispatch={setTodos} /> */}
         </>
       ) : viewMode === "board" ? (
         <Board data={todos} dispatch={setTodos} />

@@ -16,7 +16,7 @@ const Board = ({
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <div className="flex justify-center">
         {Object.keys(data).map((el) => (
-          <ContainerDiv data={data[el]} currentStatus={el} />
+          <ContainerDiv key={el} data={data[el]} currentStatus={el} />
         ))}
       </div>
     </DragDropContext>
