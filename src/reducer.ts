@@ -1,12 +1,14 @@
+import { saveInStorage } from "./utils/localstorage";
+
 const todoReducer = (state: TodoState, action: action) => {
   if (action.type === "ADD_TODO") {
-    return {
+    return saveInStorage({
       ...state,
       [action.payload.status]: [
         ...state[action.payload.status],
         action.payload,
       ],
-    };
+    });
   }
 
   if (action.type === "EDIT_TODO") {
@@ -29,16 +31,16 @@ const todoReducer = (state: TodoState, action: action) => {
           [action.payload.status]: [...state[action.payload.status]],
         };
         temp[action.payload.status][index] = action.payload;
-        return temp;
+        return saveInStorage(temp);
       } else {
         state[old_status.status].splice(index, 1);
-        return {
+        return saveInStorage({
           ...state,
           [action.payload.status]: [
             ...state[action.payload.status],
             action.payload,
           ],
-        };
+        });
       }
     }
   }
@@ -57,7 +59,15 @@ const todoReducer = (state: TodoState, action: action) => {
       status: statusDest,
       updated_at: new Date(),
     };
-    return { ...state };
+    return saveInStorage({ ...state });
+  }
+  if (action.type === "DELETE_TODO") {
+    return saveInStorage({
+      ...state,
+      [action.payload.status]: state[action.payload.status].filter(
+        (el) => el.id !== action.payload.id
+      ),
+    });
   }
   return state;
 };

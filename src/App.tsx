@@ -6,6 +6,7 @@ import CreateTodo from "./components/CreateTodo";
 import todoReducer from "./reducer";
 import Modal from "./components/Modal";
 import { initialState } from "./config";
+import { loadStorage } from "./utils/localstorage";
 
 function App() {
   const [todos, setTodos] = useReducer(todoReducer, initialState);

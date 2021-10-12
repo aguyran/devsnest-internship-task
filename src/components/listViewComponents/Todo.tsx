@@ -47,6 +47,9 @@ const Todo = ({
         <td className="px-4 py-3 text-sm border">
           {element.updated_at?.toString()}
         </td>
+        <td className="px-4 py-3 text-sm border">
+          {element.due ? new Date(element.due).toDateString() : null}
+        </td>
       </tr>
       {isEdit ? (
         <Modal>

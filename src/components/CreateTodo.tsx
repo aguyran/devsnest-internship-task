@@ -1,6 +1,7 @@
 import Modal from "./Modal";
 import React from "react";
 import { useState } from "react";
+import { HiTrash } from "react-icons/hi";
 
 const CreateTodo = ({
   dispatch,
@@ -106,6 +107,23 @@ const CreateTodo = ({
                 </select>
               </div>
             </div>
+            <div className="flex flex-col sm:flex-row items-center mb-5 sm:space-x-5">
+              <div className="w-full sm:w-1/2">
+                {" "}
+                <p className="mb-2 font-semibold text-gray-700">Due</p>
+                <input
+                  type="date"
+                  disabled={editOn ? (currentlyEditing ? false : true) : false}
+                  {...(editOn
+                    ? currentlyEditing
+                      ? false
+                      : { style: { backgroundColor: grey } }
+                    : null)}
+                  className="w-full p-5 bg-white border border-gray-200 rounded shadow-sm appearance-none"
+                  onChange={(e) => handleInput("due")(e)}
+                ></input>
+              </div>
+            </div>
             <hr />
           </div>
           <div className="flex flex-row items-center justify-between p-5 bg-white border-t border-gray-200 rounded-bl-lg rounded-br-lg ">
@@ -115,32 +133,50 @@ const CreateTodo = ({
             >
               Cancel
             </p>
-            <button
-              className="px-4 py-2 text-white font-semibold bg-blue-500 rounded cursor-pointer"
-              onClick={() => {
-                if (!editOn) {
-                  dispatch({
-                    type: "ADD_TODO",
-                    payload: {
-                      ...handleData,
-                      id: Date.now().toString(),
-                      created_at: new Date(),
-                      updated_at: new Date(),
-                    },
-                  });
-                  setVisible(false);
-                } else {
-                  if (currentlyEditing && editOn)
+            <div className="grid grid-cols-2 gap-3">
+              {" "}
+              {editOn ? (
+                <button
+                  className="bg-transparent text-red-400 font-semibold  py-2 px-4 border border-red-500  rounded"
+                  onClick={() => {
                     dispatch({
-                      type: "EDIT_TODO",
-                      payload: { ...handleData, updated_at: new Date() },
+                      type: "DELETE_TODO",
+                      payload: { ...handleData },
                     });
-                }
-                setCurrentlyEditing(!currentlyEditing);
-              }}
-            >
-              {editOn ? (currentlyEditing ? "Save" : "Edit") : "Create"}
-            </button>
+                  }}
+                >
+                  Delete
+                </button>
+              ) : (
+                <></>
+              )}
+              <button
+                className="px-4 py-2 text-white font-semibold bg-blue-500 rounded cursor-pointer"
+                onClick={() => {
+                  if (!editOn) {
+                    dispatch({
+                      type: "ADD_TODO",
+                      payload: {
+                        ...handleData,
+                        id: Date.now().toString(),
+                        created_at: new Date(),
+                        updated_at: new Date(),
+                      },
+                    });
+                    setVisible(false);
+                  } else {
+                    if (currentlyEditing && editOn)
+                      dispatch({
+                        type: "EDIT_TODO",
+                        payload: { ...handleData, updated_at: new Date() },
+                      });
+                  }
+                  setCurrentlyEditing(!currentlyEditing);
+                }}
+              >
+                {editOn ? (currentlyEditing ? "Save" : "Edit") : "Create"}
+              </button>
+            </div>
           </div>
         </div>
       </div>

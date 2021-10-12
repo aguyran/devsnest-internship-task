@@ -28,7 +28,6 @@ const Cards = ({
         <HiEye
           className="cursor-pointer transform transition duration-500 hover:scale-110"
           onClick={() => {
-            console.log("HELLo");
             setEdit(!isEdit);
           }}
         />
