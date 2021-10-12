@@ -13,14 +13,15 @@ const todoReducer = (state: TodoState, action: action) => {
     let old_status: TodoStruct | undefined;
     let index = 0;
     Object.keys(state).forEach((el) => {
-      state[el].forEach((el2, i) => {
-        if (el2.id === action.payload.id) {
-          old_status = el2;
+      for (let i = 0; i < state[el].length; i++) {
+        if (state[el][i].id === action.payload.id) {
+          old_status = state[el][i];
           index = i;
+          break;
         }
-      });
+      }
     });
-    let temp;
+    let temp: TodoState | undefined;
     if (old_status) {
       if (old_status.status === action.payload.status) {
         temp = {
